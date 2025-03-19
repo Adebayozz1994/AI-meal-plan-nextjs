@@ -1,15 +1,15 @@
 "use client";
-import { useState } from "react";
-import { generateMealPlan } from "../../axios"; 
+
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { generateMealPlan } from "../../axios"; // Ensure this function is implemented in your axios file
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 
-// Define the expected response type from the API
 interface MealPlanResponse {
   mealPlan: string;
 }
 
-// Define the user input type
 interface UserData {
   userId: string;
   goal: string;
@@ -17,21 +17,32 @@ interface UserData {
 }
 
 export default function MealPlanPage() {
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId"); // Get userId from URL query
   const [goal, setGoal] = useState<string>("");
   const [allergies, setAllergies] = useState<string>("");
   const [mealPlan, setMealPlan] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!userId) {
+      toast.error("User ID is missing. Please log in again.");
+    }
+  }, [userId]);
 
   const handleGeneratePlan = async (): Promise<void> => {
     if (!goal.trim()) {
       toast.error("Please enter your health goal!");
       return;
     }
-
+    if (!userId) {
+      toast.error("User ID is missing. Please log in again.");
+      return;
+    }
     setLoading(true);
     try {
       const userData: UserData = {
-        userId: "12345", // Replace with actual user ID
+        userId,
         goal,
         allergies: allergies ? allergies.split(",").map((a) => a.trim()) : [],
       };

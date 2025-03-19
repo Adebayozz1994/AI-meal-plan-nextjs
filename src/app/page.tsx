@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -11,21 +11,32 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    // Check if there's a token in the URL (After successful login)
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
 
     if (token) {
-      localStorage.setItem("token", token); 
-      router.push("/dashboard"); 
+      localStorage.setItem("token", token);
+      router.push("/dashboard");
     }
-  }, []);
+  }, [router]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <button onClick={handleGoogleLogin} className="bg-blue-500 text-white px-6 py-2 rounded">
-        Login with Google
-      </button>
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-indigo-700 flex items-center justify-center text-white p-6">
+      <div className="max-w-xl text-center">
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
+          Welcome to AI Meal Planner
+        </h1>
+        <p className="text-lg md:text-xl mb-8">
+          Harness the power of AI to generate personalized meal plans tailored just for you.
+          Eat healthy, save time, and reach your fitness goals effortlessly.
+        </p>
+        <button
+          onClick={handleGoogleLogin}
+          className="bg-white text-indigo-700 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300"
+        >
+          Login with Google
+        </button>
+      </div>
     </div>
   );
 };
