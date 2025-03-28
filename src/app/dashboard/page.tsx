@@ -20,7 +20,6 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Get token from URL (if redirected) or from localStorage
     const token = searchParams.get("token") || localStorage.getItem("token");
     console.log("Token:", token);
 
